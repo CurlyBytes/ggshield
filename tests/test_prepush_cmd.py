@@ -94,7 +94,7 @@ class TestPrepush:
             commit_list=commit_list,
             output_handler=ANY,
             verbose=True,
-            filter_set=set(),
+            excluded_patterns=set(),
             matches_ignore=ANY,
             all_policies=False,
             scan_id=ANY,

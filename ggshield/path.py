@@ -7,6 +7,7 @@ import click
 from ggshield.git_shell import git_ls, is_git_dir
 
 from .config import MAX_FILE_SIZE
+from .filter import is_excluded
 from .scan import File, Files
 
 
@@ -77,9 +78,9 @@ def get_filepaths(
             else:
                 _targets = {str(target) for target in top_dir.rglob(r"*")}
 
-            _targets.difference_update(paths_ignore)
-
-            targets.update(_targets)
+            for file_path in _targets:
+                if not is_excluded(file_path, paths_ignore):
+                    targets.add(file_path)
     return targets
 
 

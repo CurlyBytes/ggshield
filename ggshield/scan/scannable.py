@@ -173,11 +173,11 @@ class Commit(Files):
     Commit represents a commit which is a list of commit files.
     """
 
-    def __init__(self, sha: Optional[str] = None, filter_set: Set[str] = set()):
+    def __init__(self, sha: Optional[str] = None, excluded_patterns: Set[str] = set()):
         self.sha = sha
         self._patch: Optional[str] = None
         self._files = {}
-        self.filter_set = filter_set
+        self.excluded_patterns = excluded_patterns
         self._info: Optional[CommitInformation] = None
 
     @property
@@ -268,7 +268,7 @@ class Commit(Files):
             lines = diff.split("\n")
 
             filename = self.get_filename(lines[0])
-            if os.path.join(work_dir, filename) in self.filter_set:
+            if os.path.join(work_dir, filename) in self.excluded_patterns:
                 continue
 
             filemode = self.get_filemode(lines[1])
